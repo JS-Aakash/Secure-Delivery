@@ -1,0 +1,13 @@
+# Netlify Static Configuration for ESP32 Parcel Box Controller
+[build]
+  # Static publish directory (no build step or bundler needed)
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Ensure Web Serial API is permitted in modern browser feature policies
+    Permissions-Policy = "serial=*"
