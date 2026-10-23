@@ -25,8 +25,8 @@
 const int SERVO_PIN = 4;
 
 // Standard SG90 pulse-width timings (microseconds)
-const int MIN_PULSE_WIDTH = 500;  // 0 degrees
-const int MAX_PULSE_WIDTH = 2400; // 180 degrees
+const int SERVO_MIN_PULSE = 500;   // 0 degrees
+const int SERVO_MAX_PULSE = 2400;  // 180 degrees
 
 // Angles for lock mechanism
 const int ANGLE_LOCKED = 0;    // 0 deg = Bolt engaged (Box Locked)
@@ -52,7 +52,7 @@ void setup() {
   boxServo.setPeriodHertz(50);
   
   // Attach servo to pin with appropriate pulse-width range
-  boxServo.attach(SERVO_PIN, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+  boxServo.attach(SERVO_PIN, SERVO_MIN_PULSE, SERVO_MAX_PULSE);
 
   // Set default initial state to LOCKED (0 degrees)
   boxServo.write(ANGLE_LOCKED);

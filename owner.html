@@ -236,8 +236,19 @@
       width: auto;
       border: 1px solid var(--card-border);
     }
-    .btn-copy:hover {
-      background: rgba(255, 255, 255, 0.15);
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .btn-signout {
+      cursor: pointer;
+      background: rgba(244, 63, 94, 0.1);
+      border-color: rgba(244, 63, 94, 0.3);
+      color: #fda4af;
+    }
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -249,7 +260,10 @@
         <span class="brand-icon">📦</span>
         <span class="brand-name">Owner Portal</span>
       </div>
-      <a href="delivery.html" class="nav-link">Switch to Delivery →</a>
+      <div class="header-actions">
+        <button id="btnLogout" class="nav-link btn-signout" type="button">Sign Out</button>
+        <a href="delivery.html" class="nav-link">Delivery →</a>
+      </div>
     </header>
 
     <main class="card">
@@ -259,12 +273,12 @@
       <div class="otp-box">
         <span class="otp-tag tag-none" id="otpTag">No Active Code</span>
         <div class="otp-digits placeholder" id="otpDigits">------</div>
-        <button id="btnCopy" class="btn btn-copy" type="button" style="display: none;">
+        <button id="btnCopy" class="btn btn-copy hidden" type="button">
           📋 Copy Code
         </button>
       </div>
 
-      <div id="timerContainer" style="display: none;">
+      <div id="timerContainer" class="hidden">
         <div class="timer-row">
           <span>Code expires in:</span>
           <strong id="timerText">05:00</strong>
@@ -308,8 +322,8 @@
       otpDigits.classList.remove('placeholder');
       otpTag.className = "otp-tag tag-active";
       otpTag.textContent = "Active";
-      btnCopy.style.display = 'inline-flex';
-      timerContainer.style.display = 'block';
+      btnCopy.classList.remove('hidden');
+      timerContainer.classList.remove('hidden');
 
       startTimer();
     }
@@ -357,10 +371,23 @@
       setTimeout(() => { btnCopy.textContent = "📋 Copy Code"; }, 1500);
     }
 
-    btnCopy.addEventListener('click', copyOtp);
+    const btnLogout = document.getElementById('btnLogout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', () => {
+        localStorage.removeItem('owner_authenticated');
+        sessionStorage.removeItem('owner_authenticated');
+        window.location.href = 'login.html';
+      });
+    }
 
-    // Load active code from storage if still valid
+    // Check authentication and load active code from storage if still valid
     window.addEventListener('DOMContentLoaded', () => {
+      // Enforce authentication
+      if (localStorage.getItem('owner_authenticated') !== 'true') {
+        window.location.href = 'login.html?redirect=owner.html';
+        return;
+      }
+
       try {
         const storedOtp = localStorage.getItem('box_otp');
         const storedExpires = localStorage.getItem('box_otp_expires');
@@ -375,8 +402,8 @@
             otpDigits.classList.remove('placeholder');
             otpTag.className = "otp-tag tag-active";
             otpTag.textContent = "Active";
-            btnCopy.style.display = 'inline-flex';
-            timerContainer.style.display = 'block';
+            btnCopy.classList.remove('hidden');
+            timerContainer.classList.remove('hidden');
             startTimer();
           }
         }

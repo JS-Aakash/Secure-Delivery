@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Box Owner Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --font: 'Plus Jakarta Sans', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 45%);
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .brand-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .brand-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem 1.75rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-input {
+      width: 100%;
+      background: #060912;
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      color: #ffffff;
+      font-family: var(--font);
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+
+    .btn {
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.85rem 1.25rem;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #7073ff, #5850ec);
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn-submit {
+      margin-top: 0.5rem;
+    }
+
+    .nav-separator {
+      color: var(--text-dim);
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    .msg {
+      font-size: 0.88rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .msg.show {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+    .msg-error {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fda4af;
+    }
+    .msg-success {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="brand-header">
+      <div class="brand-icon">📦</div>
+      <h1 class="brand-title">Owner Sign In</h1>
+      <p class="brand-desc">Authenticate to generate single-use parcel access codes</p>
+    </div>
+
+    <main class="card">
+      <form id="loginForm" class="login-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="usernameInput" class="form-label">Username</label>
+          <input 
+            type="text" 
+            id="usernameInput" 
+            class="form-input" 
+            placeholder="Enter username" 
+            autocomplete="username" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="passwordInput" class="form-label">Password</label>
+          <input 
+            type="password" 
+            id="passwordInput" 
+            class="form-input" 
+            placeholder="Enter password" 
+            autocomplete="current-password" 
+            required
+          >
+        </div>
+
+        <button type="submit" id="btnLogin" class="btn btn-primary btn-submit">
+          🔐 Sign In as Owner
+        </button>
+
+        <div id="loginMsg" class="msg" role="status"></div>
+      </form>
+    </main>
+
+    <div class="nav-links">
+      <a href="delivery.html" class="nav-link">🚚 Courier Access Page</a>
+      <span class="nav-separator">•</span>
+      <a href="index.html" class="nav-link">📦 Combined Portal</a>
+    </div>
+  </div>
+
+  <script>
+    // Hardcoded credentials for the Box Owner
+    const OWNER_USER = "owner";
+    const OWNER_PASS = "box123";
+
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const btnLogin = document.getElementById('btnLogin');
+    const loginMsg = document.getElementById('loginMsg');
+    const loginForm = document.getElementById('loginForm');
+
+    function handleLogin(e) {
+      if (e) e.preventDefault();
+      const u = usernameInput.value.trim();
+      const p = passwordInput.value;
+
+      if (!u || !p) {
+        showError("Please enter both username and password.");
+        return;
+      }
+
+      if (u === OWNER_USER && p === OWNER_PASS) {
+        // Successful login
+        localStorage.setItem('owner_authenticated', 'true');
+        sessionStorage.setItem('owner_authenticated', 'true');
+
+        loginMsg.className = "msg msg-success show";
+        loginMsg.innerHTML = "<span>✅</span> <span>Login successful! Redirecting to Owner Portal...</span>";
+
+        // Redirect to owner.html or index.html#owner
+        setTimeout(() => {
+          const params = new URLSearchParams(window.location.search);
+          const redirect = params.get('redirect') || 'owner.html';
+          window.location.href = redirect;
+        }, 750);
+      } else {
+        showError("Invalid credentials. Use username: owner | password: box123");
+      }
+    }
+
+    function showError(msg) {
+      loginMsg.className = "msg msg-error show";
+      loginMsg.innerHTML = `<span>❌</span> <span>${msg}</span>`;
+    }
+
+    loginForm.addEventListener('submit', handleLogin);
+    btnLogin.addEventListener('click', handleLogin);
+
+    // If already logged in, redirect directly
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('owner_authenticated') === 'true') {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('logout') === 'true') {
+          localStorage.removeItem('owner_authenticated');
+          sessionStorage.removeItem('owner_authenticated');
+        } else {
+          // Already logged in
+          const redirect = params.get('redirect') || 'owner.html';
+          window.location.href = redirect;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

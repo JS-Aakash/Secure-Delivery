@@ -271,6 +271,42 @@
       background: linear-gradient(135deg, #f43f5e, #e11d48);
     }
 
+    .btn-secondary-lock {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: #fda4af;
+      box-shadow: none;
+    }
+    .btn-secondary-lock:hover:not(:disabled) {
+      background: rgba(244, 63, 94, 0.25);
+      color: #fff;
+    }
+
+    .btn-banner-close {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fda4af;
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.45rem 0.85rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-banner-close:hover {
+      background: rgba(244, 63, 94, 0.3);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(244, 63, 94, 0.3);
+    }
+    .btn-banner-close:active {
+      transform: translateY(1px);
+    }
+
     .msg {
       font-size: 0.88rem;
       padding: 0.75rem 1rem;
@@ -344,6 +380,9 @@
           <div class="status-subtitle" id="statusSubtitle">Secure &amp; ready for delivery</div>
         </div>
       </div>
+      <button id="btnBannerClose" class="btn-banner-close" type="button" title="Close / Lock Box (Send 0)">
+        🔒 Close Box
+      </button>
     </div>
 
     <main class="card">
@@ -366,8 +405,9 @@
         🔓 Unlock Box
       </button>
 
-      <button id="btnLock" class="btn btn-lock" type="button" style="display: none;">
-        🔒 Lock Box Now
+      <!-- Close Box Option (Available for demo or relocking) -->
+      <button id="btnLock" class="btn btn-lock btn-secondary-lock" type="button">
+        🔒 Close Box (0°)
       </button>
 
       <div id="deliveryMsg" class="msg" role="status"></div>
@@ -391,6 +431,7 @@
     const inputOtp = document.getElementById('inputOtp');
     const btnUnlock = document.getElementById('btnUnlock');
     const btnLock = document.getElementById('btnLock');
+    const btnBannerClose = document.getElementById('btnBannerClose');
     const deliveryMsg = document.getElementById('deliveryMsg');
 
     /* Web Serial Communication */
@@ -400,44 +441,91 @@
         return;
       }
 
-      if (port) {
+      // Disconnect if already open
+      if (port && port.readable) {
         keepReading = false;
         try {
           if (reader) await reader.cancel();
           await port.close();
         } catch (e) {}
         port = null;
+        reader = null;
         btnConnect.classList.remove('connected');
         connectLabel.textContent = 'Connect Box';
+        showMsg("ESP32 disconnected.", "info");
         return;
       }
 
       try {
-        port = await navigator.serial.requestPort();
-        await port.open({ baudRate: 9600 });
+        // Request user port selection
+        const selectedPort = await navigator.serial.requestPort();
+        connectLabel.textContent = 'Connecting...';
+
+        // Open serial connection at 9600 baud
+        await selectedPort.open({ baudRate: 9600 });
+        port = selectedPort;
+
         btnConnect.classList.add('connected');
         connectLabel.textContent = 'Box Connected';
+        showMsg("ESP32 connected successfully at 9600 baud!", "success");
+
+        // Start reading feedback loop
         startReading();
       } catch (err) {
+        port = null;
+        reader = null;
         btnConnect.classList.remove('connected');
         connectLabel.textContent = 'Connect Box';
+
+        const msg = (err.message || "").toLowerCase();
+        if (msg.includes("failed to open") || msg.includes("access denied") || msg.includes("already open") || msg.includes("busy")) {
+          alert("⚠️ Could not open ESP32 Serial Port!\n\nReason: The COM port is locked by another program.\n\n👉 PLEASE CLOSE THE ARDUINO IDE SERIAL MONITOR, then click 'Connect Box' again.");
+          showMsg("COM port locked by another app (e.g. Arduino IDE Serial Monitor). Close it and retry.", "error");
+        } else if (msg.includes("no port selected") || msg.includes("cancelled")) {
+          showMsg("Port selection cancelled.", "info");
+        } else {
+          alert("Serial Connection Error: " + err.message);
+          showMsg("Failed to open port: " + err.message, "error");
+        }
       }
     });
 
+    // Auto-detect physical USB unplug
+    if ('serial' in navigator) {
+      navigator.serial.addEventListener('disconnect', (event) => {
+        if (port && event.port === port) {
+          keepReading = false;
+          port = null;
+          reader = null;
+          btnConnect.classList.remove('connected');
+          connectLabel.textContent = 'Connect Box';
+          showMsg("ESP32 USB cable physically disconnected.", "error");
+        }
+      });
+    }
+
     async function sendSerial(cmd) {
-      if (!port || !port.writable) {
+      if (!port) {
         showMsg("ESP32 is not connected via USB. Click 'Connect Box' first.", "error");
         return false;
       }
+      if (!port.writable) {
+        showMsg("Serial port is not writable. Click 'Connect Box' to reconnect.", "error");
+        return false;
+      }
+      let writer;
       try {
         const encoder = new TextEncoder();
-        const writer = port.writable.getWriter();
+        writer = port.writable.getWriter();
         await writer.write(encoder.encode(cmd));
-        writer.releaseLock();
         return true;
       } catch (e) {
         showMsg("Serial write failed: " + e.message, "error");
         return false;
+      } finally {
+        if (writer) {
+          try { writer.releaseLock(); } catch(err) {}
+        }
       }
     }
 
@@ -481,7 +569,8 @@
         statusTitle.textContent = "Box Unlocked";
         statusSubtitle.textContent = "Door latch open (90°)";
         btnUnlock.style.display = 'none';
-        btnLock.style.display = 'inline-flex';
+        btnLock.className = "btn btn-lock";
+        btnLock.textContent = "🔒 Lock Box Now";
         showMsg("Box unlocked successfully! Please place the package inside.", "success");
       } else if (line.includes("ACK: LOCKED") || line.includes("LOCKED")) {
         clearTimeout(ackTimeout);
@@ -491,7 +580,8 @@
         statusTitle.textContent = "Box Locked";
         statusSubtitle.textContent = "Secure & ready for delivery";
         btnUnlock.style.display = 'inline-flex';
-        btnLock.style.display = 'none';
+        btnLock.className = "btn btn-lock btn-secondary-lock";
+        btnLock.textContent = "🔒 Close Box (0°)";
         showMsg("Box locked securely.", "info");
       }
     }
@@ -573,6 +663,9 @@
     }
 
     btnLock.addEventListener('click', manualRelock);
+    if (btnBannerClose) {
+      btnBannerClose.addEventListener('click', manualRelock);
+    }
 
     function showMsg(txt, type) {
       deliveryMsg.className = `msg msg-${type} show`;
