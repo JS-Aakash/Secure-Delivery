@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Box Owner Login</title>
+  <title>Owner Sign In - Smart Parcel Box</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after {
@@ -16,33 +16,58 @@
     }
 
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(18, 24, 38, 0.85);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --emerald: #10b981;
-      --rose: #f43f5e;
-      --font: 'Plus Jakarta Sans', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+      --bg-page: #f6f3ee;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1ece4;
+      --bg-chip: #e8e1d5;
+      
+      --border-light: #e4ddd3;
+      --border-strong: #c8beb0;
+      
+      --text-main: #241a13;
+      --text-secondary: #5e5044;
+      --text-muted: #847466;
+      --text-dim: #a6988c;
+      
+      --brand-primary: #5c4033;
+      --brand-primary-hover: #473126;
+      --brand-accent: #a3693f;
+      
+      --status-success-bg: #eef6f0;
+      --status-success-border: #c8e5d0;
+      --status-success-text: #1e5a38;
+      
+      --status-error-bg: #fdf2f0;
+      --status-error-border: #f5cdc6;
+      --status-error-text: #962a1b;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 1px 3px rgba(60, 45, 30, 0.04);
+      --shadow-md: 0 4px 16px rgba(60, 45, 30, 0.06), 0 1px 3px rgba(60, 45, 30, 0.03);
+      --shadow-lg: 0 12px 32px rgba(60, 45, 30, 0.08), 0 2px 6px rgba(60, 45, 30, 0.04);
     }
 
     body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem 1rem;
+      padding: 2rem 1rem;
       background-image: 
-        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 45%);
+        radial-gradient(ellipse at 15% 10%, rgba(195, 160, 130, 0.16) 0%, transparent 60%),
+        radial-gradient(ellipse at 85% 90%, rgba(160, 125, 95, 0.12) 0%, transparent 60%);
+      line-height: 1.5;
     }
 
     .login-container {
@@ -50,7 +75,7 @@
       max-width: 420px;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     .brand-header {
@@ -58,43 +83,50 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
+      gap: 0.6rem;
     }
 
     .brand-icon {
-      width: 52px;
-      height: 52px;
-      background: linear-gradient(135deg, #4f46e5, #06b6d4);
-      border-radius: 14px;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+      font-size: 1.4rem;
+      box-shadow: 0 4px 12px rgba(92, 64, 51, 0.22);
     }
 
     .brand-title {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.02em;
+      color: var(--text-main);
     }
 
     .brand-desc {
-      font-size: 0.88rem;
-      color: var(--text-muted);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      max-width: 320px;
+      line-height: 1.4;
     }
 
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
       padding: 2rem 1.75rem;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: var(--shadow-lg);
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
     }
 
     .form-group {
@@ -106,33 +138,38 @@
     .form-label {
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--text-secondary);
     }
 
     .form-input {
       width: 100%;
-      background: #060912;
-      border: 1.5px solid var(--card-border);
-      border-radius: 12px;
-      color: #ffffff;
-      font-family: var(--font);
+      background: var(--bg-page);
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-family: var(--font-sans);
       font-size: 1rem;
-      padding: 0.75rem 1rem;
+      padding: 0.8rem 1rem;
       outline: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .form-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      background: #ffffff;
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(163, 105, 63, 0.18);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-dim);
     }
 
     .btn {
-      font-family: var(--font);
+      font-family: var(--font-sans);
       font-size: 1rem;
       font-weight: 700;
-      padding: 0.85rem 1.25rem;
-      border-radius: 12px;
+      padding: 0.9rem 1.25rem;
+      border-radius: var(--radius-md);
       border: none;
       cursor: pointer;
       display: inline-flex;
@@ -148,65 +185,69 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-      color: white;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #7073ff, #5850ec);
+      background: var(--brand-primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(92, 64, 51, 0.25);
     }
 
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .btn-primary:hover {
+      background: var(--brand-primary-hover);
+      box-shadow: 0 6px 16px rgba(92, 64, 51, 0.3);
     }
 
     .btn-submit {
-      margin-top: 0.5rem;
+      margin-top: 0.25rem;
     }
 
-    .nav-separator {
-      color: var(--text-dim);
+    .msg {
+      font-size: 0.88rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-md);
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 500;
+    }
+
+    .msg.show {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .msg-error {
+      background: var(--status-error-bg);
+      border: 1px solid var(--status-error-border);
+      color: var(--status-error-text);
+    }
+
+    .msg-success {
+      background: var(--status-success-bg);
+      border: 1px solid var(--status-success-border);
+      color: var(--status-success-text);
     }
 
     .nav-links {
       display: flex;
       justify-content: center;
-      gap: 1rem;
+      align-items: center;
+      gap: 0.85rem;
       font-size: 0.85rem;
+    }
+
+    .nav-separator {
+      color: var(--border-strong);
     }
 
     .nav-link {
       color: var(--text-muted);
       text-decoration: none;
+      font-weight: 500;
       transition: color 0.2s;
     }
-    .nav-link:hover {
-      color: var(--text);
-    }
 
-    .msg {
-      font-size: 0.88rem;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      display: none;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .msg.show {
-      display: flex;
-      animation: fadeIn 0.2s ease;
-    }
-    .msg-error {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: #fda4af;
-    }
-    .msg-success {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #6ee7b7;
+    .nav-link:hover {
+      color: var(--brand-primary);
+      text-decoration: underline;
     }
 
     @keyframes fadeIn {
@@ -218,11 +259,11 @@
 <body>
 
   <div class="login-container">
-    <div class="brand-header">
+    <header class="brand-header">
       <div class="brand-icon">📦</div>
       <h1 class="brand-title">Owner Sign In</h1>
       <p class="brand-desc">Authenticate to generate single-use parcel access codes</p>
-    </div>
+    </header>
 
     <main class="card">
       <form id="loginForm" class="login-form" onsubmit="return false;">
@@ -251,22 +292,22 @@
         </div>
 
         <button type="submit" id="btnLogin" class="btn btn-primary btn-submit">
-          🔐 Sign In as Owner
+          Sign In
         </button>
 
         <div id="loginMsg" class="msg" role="status"></div>
       </form>
     </main>
 
-    <div class="nav-links">
-      <a href="delivery.html" class="nav-link">🚚 Courier Access Page</a>
+    <nav class="nav-links">
+      <a href="delivery.html" class="nav-link">Courier Access</a>
       <span class="nav-separator">•</span>
-      <a href="index.html" class="nav-link">📦 Combined Portal</a>
-    </div>
+      <a href="index.html" class="nav-link">Unified Portal</a>
+    </nav>
   </div>
 
   <script>
-    // Hardcoded credentials for the Box Owner
+    // Hardcoded credentials for demonstration
     const OWNER_USER = "owner";
     const OWNER_PASS = "box123";
 
@@ -287,44 +328,42 @@
       }
 
       if (u === OWNER_USER && p === OWNER_PASS) {
-        // Successful login
         localStorage.setItem('owner_authenticated', 'true');
         sessionStorage.setItem('owner_authenticated', 'true');
 
         loginMsg.className = "msg msg-success show";
-        loginMsg.innerHTML = "<span>✅</span> <span>Login successful! Redirecting to Owner Portal...</span>";
+        loginMsg.textContent = "Login successful! Redirecting to Owner Portal...";
 
-        // Redirect to owner.html or index.html#owner
         setTimeout(() => {
           const params = new URLSearchParams(window.location.search);
           const redirect = params.get('redirect') || 'owner.html';
           window.location.href = redirect;
-        }, 750);
+        }, 600);
       } else {
-        showError("Invalid credentials. Use username: owner | password: box123");
+        showError("Invalid username or password. Check README for credentials.");
       }
     }
 
     function showError(msg) {
       loginMsg.className = "msg msg-error show";
-      loginMsg.innerHTML = `<span>❌</span> <span>${msg}</span>`;
+      loginMsg.textContent = msg;
     }
 
     loginForm.addEventListener('submit', handleLogin);
     btnLogin.addEventListener('click', handleLogin);
 
-    // If already logged in, redirect directly
+    // Auto-redirect if already authenticated
     window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('logout') === 'true') {
+        localStorage.removeItem('owner_authenticated');
+        sessionStorage.removeItem('owner_authenticated');
+        return;
+      }
+
       if (localStorage.getItem('owner_authenticated') === 'true') {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('logout') === 'true') {
-          localStorage.removeItem('owner_authenticated');
-          sessionStorage.removeItem('owner_authenticated');
-        } else {
-          // Already logged in
-          const redirect = params.get('redirect') || 'owner.html';
-          window.location.href = redirect;
-        }
+        const redirect = params.get('redirect') || 'owner.html';
+        window.location.href = redirect;
       }
     });
   </script>

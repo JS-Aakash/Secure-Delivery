@@ -1,48 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Parcel Box</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(18, 24, 38, 0.85);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --emerald: #10b981;
-      --rose: #f43f5e;
-      --amber: #f59e0b;
-      --font: 'Plus Jakarta Sans', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+      /* Warm Beige & Brown Aesthetic Palette */
+      --bg-page: #f6f3ee;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1ece4;
+      --bg-chip: #e8e1d5;
+
+      --border-light: #e4ddd3;
+      --border-strong: #c8beb0;
+
+      --text-main: #241a13;
+      --text-secondary: #5e5044;
+      --text-muted: #847466;
+      --text-dim: #a6988c;
+
+      --brand-primary: #5c4033;
+      --brand-primary-hover: #473126;
+      --brand-accent: #a3693f;
+      --brand-accent-hover: #8f5830;
+
+      --status-locked-bg: #fdf2f0;
+      --status-locked-border: #f5cdc6;
+      --status-locked-text: #962a1b;
+
+      --status-unlocked-bg: #eef6f0;
+      --status-unlocked-border: #c8e5d0;
+      --status-unlocked-text: #1e5a38;
+
+      --status-pending-bg: #fdf6ec;
+      --status-pending-border: #f4deaf;
+      --status-pending-text: #8e5406;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 3px rgba(60, 45, 30, 0.04);
+      --shadow-md: 0 4px 16px rgba(60, 45, 30, 0.06), 0 1px 3px rgba(60, 45, 30, 0.03);
+      --shadow-lg: 0 12px 32px rgba(60, 45, 30, 0.08), 0 2px 6px rgba(60, 45, 30, 0.04);
     }
 
     body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1.5rem 1rem 3rem;
-      background-image: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 90% 90%, rgba(16, 185, 129, 0.08) 0%, transparent 45%);
+      padding: 1.5rem 1rem 3.5rem;
+      background-image:
+        radial-gradient(ellipse at 15% 10%, rgba(195, 160, 130, 0.14) 0%, transparent 60%),
+        radial-gradient(ellipse at 85% 90%, rgba(160, 125, 95, 0.1) 0%, transparent 60%);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
     .app-shell {
@@ -58,23 +94,74 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.5rem 0.25rem;
+      padding: 0.25rem 0.25rem 0.5rem;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.65rem;
     }
 
     .brand-icon {
-      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(92, 64, 51, 0.25);
+    }
+
+    .brand-details {
+      display: flex;
+      flex-direction: column;
     }
 
     .brand-name {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
+      color: var(--text-main);
       letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .brand-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-light);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .icon-btn:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-strong);
+      color: var(--text-main);
     }
 
     .connect-btn {
@@ -82,53 +169,84 @@
       align-items: center;
       gap: 0.45rem;
       font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.45rem 0.85rem;
-      border-radius: 9999px;
-      border: 1px solid var(--card-border);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-light);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
     }
 
     .connect-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text);
+      background: var(--bg-subtle);
+      border-color: var(--border-strong);
+      color: var(--text-main);
     }
 
     .connect-btn.connected {
-      border-color: rgba(16, 185, 129, 0.4);
-      background: rgba(16, 185, 129, 0.12);
-      color: #34d399;
+      border-color: var(--status-unlocked-border);
+      background: var(--status-unlocked-bg);
+      color: var(--status-unlocked-text);
     }
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+    .connect-btn.pending {
+      border-color: var(--status-pending-border);
+      background: var(--status-pending-bg);
+      color: var(--status-pending-text);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
       background: var(--text-dim);
     }
 
-    .connected .dot {
-      background: var(--emerald);
-      box-shadow: 0 0 8px var(--emerald);
+    .connected .status-dot {
+      background: #285c41;
+      box-shadow: 0 0 6px rgba(40, 92, 65, 0.6);
+      animation: pulse-dot 2.5s infinite;
     }
 
-    /* Role Nav Switcher (Owner vs Delivery) */
+    .pending .status-dot {
+      background: #b4690e;
+      animation: pulse-dot 1s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% {
+        opacity: 0.7;
+        transform: scale(0.95);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+
+      100% {
+        opacity: 0.7;
+        transform: scale(0.95);
+      }
+    }
+
+    /* Role Nav Switcher */
     .role-nav {
       display: flex;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--bg-subtle);
       padding: 4px;
-      border-radius: 14px;
-      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
     }
 
     .role-tab {
       flex: 1;
       text-align: center;
       padding: 0.65rem 1rem;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       border-radius: 10px;
       color: var(--text-muted);
@@ -136,12 +254,13 @@
       border: none;
       background: transparent;
       transition: all 0.2s ease;
+      font-family: var(--font-sans);
     }
 
     .role-tab.active {
-      background: var(--primary);
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
     }
 
     /* Main Container */
@@ -152,16 +271,17 @@
       width: 100%;
     }
 
-    /* Box Hardware Status Banner */
+    /* Status Card (Physical State) */
     .status-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
       padding: 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
     }
 
     .status-left {
@@ -173,51 +293,88 @@
     .lock-pill-icon {
       width: 44px;
       height: 44px;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       transition: all 0.3s;
     }
 
     .state-locked .lock-pill-icon {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: var(--rose);
+      background: var(--status-locked-bg);
+      border: 1px solid var(--status-locked-border);
+      color: var(--status-locked-text);
     }
 
     .state-unlocked .lock-pill-icon {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--emerald);
+      background: var(--status-unlocked-bg);
+      border: 1px solid var(--status-unlocked-border);
+      color: var(--status-unlocked-text);
     }
 
     .state-pending .lock-pill-icon {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: var(--amber);
+      background: var(--status-pending-bg);
+      border: 1px solid var(--status-pending-border);
+      color: var(--status-pending-text);
       animation: spin-pulse 1.2s infinite;
     }
 
     @keyframes spin-pulse {
-      0% { transform: scale(0.96); opacity: 0.8; }
-      50% { transform: scale(1.05); opacity: 1; }
-      100% { transform: scale(0.96); opacity: 0.8; }
+      0% {
+        transform: scale(0.96);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.04);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.96);
+        opacity: 0.8;
+      }
     }
 
     .status-title {
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
     }
 
     .status-subtitle {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 500;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
-    /* Main Role Views */
+    .btn-banner-close {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-banner-close:hover {
+      background: var(--bg-chip);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+
+    /* Views */
     .page-view {
       display: none;
       flex-direction: column;
@@ -229,82 +386,153 @@
       animation: fadeIn 0.25s ease;
     }
 
-    /* Cards */
+    /* Elevated Cards */
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
       padding: 1.75rem 1.5rem;
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
     }
 
     .card-header-title {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: -0.01em;
+      color: var(--text-main);
     }
 
     .card-desc {
       font-size: 0.88rem;
-      color: var(--text-muted);
+      font-weight: 500;
+      color: var(--text-secondary);
       line-height: 1.45;
     }
 
-    /* OTP Display (Owner) */
+    /* Forms & Inputs */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-light);
+      border-radius: 12px;
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(163, 105, 63, 0.15);
+    }
+
+    .btn-submit-login {
+      margin-top: 0.25rem;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-logout {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: #faece9;
+      border-color: var(--status-locked-border);
+      color: var(--status-locked-text);
+    }
+
+    /* OTP Code Display */
     .otp-box {
-      background: #060912;
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
       padding: 1.5rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.65rem;
     }
 
     .otp-digits {
-      font-family: var(--mono);
-      font-size: 2.75rem;
+      font-family: var(--font-mono);
+      font-size: 2.85rem;
       font-weight: 800;
-      letter-spacing: 0.2em;
-      text-indent: 0.2em;
-      color: #ffffff;
+      letter-spacing: 0.25em;
+      text-indent: 0.25em;
+      color: var(--text-main);
     }
 
     .otp-digits.placeholder {
       color: var(--text-dim);
-      font-size: 2.2rem;
+      font-size: 2.4rem;
     }
 
     .otp-tag {
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding: 0.2rem 0.65rem;
-      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
     }
 
     .tag-none {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-dim);
+      background: var(--bg-chip);
+      color: var(--text-secondary);
     }
+
     .tag-active {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: var(--status-unlocked-bg);
+      color: var(--status-unlocked-text);
+      border: 1px solid var(--status-unlocked-border);
     }
+
     .tag-expired {
-      background: rgba(244, 63, 94, 0.15);
-      color: #fb7185;
-      border: 1px solid rgba(244, 63, 94, 0.3);
+      background: var(--status-locked-bg);
+      color: var(--status-locked-text);
+      border: 1px solid var(--status-locked-border);
     }
+
     .tag-used {
-      background: rgba(100, 116, 139, 0.2);
-      color: #94a3b8;
+      background: var(--bg-chip);
+      color: var(--text-muted);
     }
 
     .timer-row {
@@ -312,65 +540,66 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.85rem;
-      color: var(--text-muted);
+      font-weight: 600;
+      color: var(--text-secondary);
       padding: 0 0.2rem;
     }
 
     .timer-track {
       width: 100%;
       height: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
+      background: var(--bg-chip);
+      border-radius: var(--radius-full);
       overflow: hidden;
-      margin-top: 0.3rem;
+      margin-top: 0.35rem;
     }
 
     .timer-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--primary), var(--emerald));
+      background: linear-gradient(90deg, var(--brand-accent), #285c41);
       transition: width 1s linear;
     }
 
     .timer-fill.warn {
-      background: linear-gradient(90deg, var(--amber), var(--rose));
+      background: linear-gradient(90deg, #b4690e, #b93826);
     }
 
-    /* Courier Input */
+    /* Courier Keypad Input */
     .input-otp {
       width: 100%;
-      background: #060912;
-      border: 2px solid var(--card-border);
-      border-radius: 14px;
-      color: #ffffff;
-      font-family: var(--mono);
-      font-size: 2rem;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 2.25rem;
       font-weight: 700;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.3em;
       text-align: center;
       padding: 0.75rem 1rem;
       outline: none;
-      transition: border 0.2s;
+      transition: all 0.2s;
     }
 
     .input-otp:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(163, 105, 63, 0.15);
     }
 
     .input-otp::placeholder {
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       color: var(--text-dim);
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     /* Buttons */
     .btn {
-      font-family: var(--font);
+      font-family: var(--font-sans);
       font-size: 1rem;
       font-weight: 700;
       padding: 0.85rem 1.25rem;
-      border-radius: 14px;
+      border-radius: var(--radius-md);
       border: none;
       cursor: pointer;
       display: inline-flex;
@@ -386,153 +615,76 @@
     }
 
     .btn:disabled {
-      opacity: 0.45;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
     .btn-primary {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      background: var(--brand-primary);
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(92, 64, 51, 0.25);
     }
+
     .btn-primary:hover:not(:disabled) {
-      background: var(--primary-hover);
+      background: var(--brand-primary-hover);
     }
 
     .btn-unlock {
-      background: linear-gradient(135deg, #059669, #047857);
-      color: white;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+      background: #285c41;
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(40, 92, 65, 0.25);
     }
+
     .btn-unlock:hover:not(:disabled) {
-      background: linear-gradient(135deg, #10b981, #059669);
+      background: #1f4732;
     }
 
     .btn-lock {
-      background: linear-gradient(135deg, #e11d48, #be123c);
-      color: white;
-      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.35);
+      background: #962a1b;
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(150, 42, 27, 0.25);
     }
+
     .btn-lock:hover:not(:disabled) {
-      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      background: #7a2215;
     }
 
     .btn-secondary-lock {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: #fda4af;
-      box-shadow: none;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
     }
+
     .btn-secondary-lock:hover:not(:disabled) {
-      background: rgba(244, 63, 94, 0.25);
-      color: #fff;
-    }
-
-    .btn-banner-close {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid rgba(244, 63, 94, 0.35);
-      color: #fda4af;
-      font-family: var(--font);
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 0.45rem 0.85rem;
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .btn-banner-close:hover {
-      background: rgba(244, 63, 94, 0.3);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(244, 63, 94, 0.3);
-    }
-    .btn-banner-close:active {
-      transform: translateY(1px);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    .form-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-    .form-input {
-      width: 100%;
-      background: #060912;
-      border: 1.5px solid var(--card-border);
-      border-radius: 12px;
-      color: #ffffff;
-      font-family: var(--font);
-      font-size: 1rem;
-      padding: 0.75rem 1rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-    .form-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-    }
-    .login-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-    .btn-submit-login {
-      margin-top: 0.25rem;
-    }
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .hidden {
-      display: none !important;
-    }
-    .btn-logout {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: #fda4af;
-      font-size: 0.8rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--font);
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .btn-logout:hover {
-      background: rgba(244, 63, 94, 0.25);
-      color: #fff;
+      background: var(--bg-chip);
     }
 
     .btn-copy {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
       font-size: 0.85rem;
-      padding: 0.45rem 0.9rem;
-      border-radius: 8px;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-sm);
       width: auto;
-      border: 1px solid var(--card-border);
-    }
-    .btn-copy:hover {
-      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
     }
 
-    /* Message Toast */
+    .btn-copy:hover {
+      background: var(--bg-chip);
+      color: var(--text-main);
+    }
+
+    /* Feedback Alerts */
     .msg {
       font-size: 0.88rem;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
+      font-weight: 600;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
       display: none;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
     }
 
     .msg.show {
@@ -541,21 +693,96 @@
     }
 
     .msg-error {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: #fda4af;
+      background: var(--status-locked-bg);
+      border: 1px solid var(--status-locked-border);
+      color: var(--status-locked-text);
     }
 
     .msg-success {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #6ee7b7;
+      background: var(--status-unlocked-bg);
+      border: 1px solid var(--status-unlocked-border);
+      color: var(--status-unlocked-text);
     }
 
     .msg-info {
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      color: #c7d2fe;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+    }
+
+    /* Production Activity Feed */
+    .activity-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .activity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .activity-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-clear-logs {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .btn-clear-logs:hover {
+      color: var(--text-main);
+    }
+
+    .activity-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 140px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .activity-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed var(--border-light);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-item-time {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .sr-only {
@@ -571,11 +798,19 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="app-shell">
@@ -583,74 +818,87 @@
     <!-- Top Bar -->
     <header class="top-bar">
       <div class="brand">
-        <span class="brand-icon">📦</span>
-        <span class="brand-name">Parcel Box</span>
+        <div class="brand-icon">📦</div>
+        <div class="brand-details">
+          <span class="brand-name">Parcel Box</span>
+          <span class="brand-tag">Smart Controller</span>
+        </div>
       </div>
 
-      <!-- Clean Connect Button -->
-      <button id="btnConnect" class="connect-btn" type="button" title="Connect Box via USB">
-        <span class="dot"></span>
-        <span id="connectLabel">Connect Box</span>
-      </button>
+      <div class="header-actions">
+        <!-- Audio Feedback Toggle -->
+        <button id="btnSoundToggle" class="icon-btn" type="button" title="Toggle Sound Feedback">
+          <span id="soundIcon">🔔</span>
+        </button>
+
+        <!-- Hardware Connect Button -->
+        <button id="btnConnect" class="connect-btn" type="button" title="Connect Box via USB">
+          <span class="status-dot"></span>
+          <span id="connectLabel">Connect Box</span>
+        </button>
+      </div>
     </header>
 
-    <!-- Page Switcher: Owner vs Delivery -->
+    <!-- Role Nav Switcher -->
     <nav class="role-nav" aria-label="Role Switcher">
       <button id="tabOwner" class="role-tab active" type="button">
-        👤 Owner
+        Owner
       </button>
       <button id="tabDelivery" class="role-tab" type="button">
-        🚚 Delivery Person
+        Courier
       </button>
     </nav>
 
-    <!-- Single Main Container -->
+    <!-- Main Container -->
     <main class="main-content">
 
-      <!-- Box Status Banner (Shared State) -->
+      <!-- Physical Box State Banner -->
       <div class="status-card state-locked" id="statusCard">
         <div class="status-left">
           <div class="lock-pill-icon" id="lockIcon">🔒</div>
           <div>
-            <div class="status-title" id="statusTitle">Box Locked</div>
-            <div class="status-subtitle" id="statusSubtitle">Secure &amp; ready for delivery</div>
+            <div class="status-title" id="statusTitle">Box Locked (90°)</div>
+            <div class="status-subtitle" id="statusSubtitle">Secure &amp; latch engaged</div>
           </div>
         </div>
-        <button id="btnBannerClose" class="btn-banner-close" type="button" title="Close / Lock Box (Send 0)">
-          🔒 Close Box
+        <button id="btnBannerClose" class="btn-banner-close" type="button" title="Rotate Servo to 90° (Lock)">
+          🔒 Close Box (90°)
         </button>
       </div>
 
       <!-- ================= PAGE 1: OWNER VIEW ================= -->
       <section id="pageOwner" class="page-view active" aria-labelledby="ownerTitle">
-        <!-- 1A: Owner Login Card (Shown if not logged in) -->
+        <!-- 1A: Owner Login Card -->
         <div class="card" id="ownerLoginCard">
           <h2 class="card-header-title">Owner Sign In</h2>
-          <p class="card-desc">Sign in with box owner credentials to generate and manage access codes.</p>
+          <p class="card-desc">Sign in with owner credentials to generate single-use delivery codes.</p>
 
           <form id="ownerLoginForm" class="login-form" onsubmit="return false;">
             <div class="form-group">
               <label for="ownerUserInput" class="form-label">Username</label>
-              <input type="text" id="ownerUserInput" class="form-input" placeholder="Enter username" autocomplete="username">
+              <input type="text" id="ownerUserInput" class="form-input" placeholder="Enter username"
+                autocomplete="username">
             </div>
             <div class="form-group">
               <label for="ownerPassInput" class="form-label">Password</label>
-              <input type="password" id="ownerPassInput" class="form-input" placeholder="Enter password" autocomplete="current-password">
+              <input type="password" id="ownerPassInput" class="form-input" placeholder="Enter password"
+                autocomplete="current-password">
             </div>
             <button id="btnOwnerLogin" class="btn btn-primary btn-submit-login" type="submit">
-              🔐 Sign In as Owner
+              Sign In
             </button>
             <div id="ownerLoginMsg" class="msg" role="status"></div>
           </form>
         </div>
 
-        <!-- 1B: Owner Protected Dashboard (Shown once logged in) -->
+        <!-- 1B: Owner Protected Dashboard -->
         <div class="card hidden" id="ownerDashboardCard">
           <div class="dashboard-header">
-            <h2 id="ownerTitle" class="card-header-title">Generate Delivery Code</h2>
+            <h2 id="ownerTitle" class="card-header-title">Delivery Code</h2>
             <button id="btnOwnerLogout" class="btn-logout" type="button">Sign Out</button>
           </div>
-          <p class="card-desc">Create a single-use 6-digit OTP for your courier. Each code automatically expires in 5 minutes.</p>
+          <p class="card-desc">Generate a single-use 6-digit OTP for your courier. Each code automatically expires in 5
+            minutes.</p>
 
           <div class="otp-box">
             <span class="otp-tag tag-none" id="otpTag">No Active Code</span>
@@ -676,35 +924,43 @@
         </div>
       </section>
 
-      <!-- ================= PAGE 2: DELIVERY PERSON VIEW ================= -->
+      <!-- ================= PAGE 2: DELIVERY COURIER VIEW ================= -->
       <section id="pageDelivery" class="page-view" aria-labelledby="deliveryTitle">
         <div class="card">
-          <h2 id="deliveryTitle" class="card-header-title">Delivery Courier Access</h2>
-          <p class="card-desc">Enter the 6-digit OTP code provided by the box owner to unlock the box.</p>
+          <h2 id="deliveryTitle" class="card-header-title">Courier Access</h2>
+          <p class="card-desc">Enter the 6-digit OTP code provided by the box owner to unlock the latch.</p>
 
           <label for="inputOtp" class="sr-only">Enter 6-Digit Delivery Code</label>
-          <input 
-            type="text" 
-            id="inputOtp" 
-            class="input-otp" 
-            maxlength="6" 
-            placeholder="000000" 
-            inputmode="numeric" 
-            autocomplete="off"
-            aria-label="Enter 6-digit delivery code"
-          >
+          <input type="text" id="inputOtp" class="input-otp" maxlength="6" placeholder="000000" inputmode="numeric"
+            autocomplete="off" aria-label="Enter 6-digit delivery code">
 
           <button id="btnUnlock" class="btn btn-unlock" type="button">
-            🔓 Unlock Box
+            🔓 Unlock Box (0°)
           </button>
 
-          <!-- Close Box Option (Available for demo or relocking) -->
+          <!-- Close Box Option -->
           <button id="btnLock" class="btn btn-lock btn-secondary-lock" type="button">
-            🔒 Close Box (0°)
+            🔒 Close Box (90°)
           </button>
 
           <div id="deliveryMsg" class="msg" role="status"></div>
         </div>
+      </section>
+
+      <!-- Activity Audit Trail (Production Feature) -->
+      <section class="activity-section">
+        <div class="activity-header">
+          <span class="activity-title">
+            <span>📋</span> Activity Log
+          </span>
+          <button id="btnClearLogs" class="btn-clear-logs" type="button">Clear</button>
+        </div>
+        <ul id="activityList" class="activity-list">
+          <li class="activity-item">
+            <span>System ready</span>
+            <span class="activity-item-time">Ready</span>
+          </li>
+        </ul>
       </section>
 
     </main>
@@ -712,8 +968,22 @@
   </div>
 
   <script>
-    // State
-    const OTP_SECONDS = 300; // 5 minutes
+    /* ==========================================================================
+       ESP32 Smart Parcel Box - Robust Frontend Logic
+       Reversed Angles: 0 deg = UNLOCKED, 90 deg = LOCKED
+       ========================================================================== */
+    const OTP_SECONDS = 300; // 5 minutes duration
+    const SERVO_UNLOCK_CMD = "1\n"; // Commands ESP32 to rotate to 0 degrees
+    const SERVO_LOCK_CMD = "0\n"; // Commands ESP32 to rotate to 90 degrees
+    const SERIAL_BAUD_RATE = 9600;
+
+    // Cross-tab broadcast channel for instant real-time synchronization
+    let broadcastChannel = null;
+    try {
+      broadcastChannel = new BroadcastChannel('parcel_box_channel');
+    } catch (e) { }
+
+    // State Variables
     let activeOtp = null;
     let otpStatus = 'NONE'; // 'NONE' | 'ACTIVE' | 'EXPIRED' | 'USED'
     let otpExpiresAt = null;
@@ -724,14 +994,19 @@
     let keepReading = false;
     let boxPhysicalState = 'LOCKED'; // 'LOCKED' | 'AWAITING_UNLOCK' | 'UNLOCKED' | 'AWAITING_LOCK'
     let ackTimeout = null;
+    let soundEnabled = localStorage.getItem('box_sound_enabled') !== 'false';
 
-    // Elements
+    // DOM Elements
     const btnConnect = document.getElementById('btnConnect');
     const connectLabel = document.getElementById('connectLabel');
     const statusCard = document.getElementById('statusCard');
     const lockIcon = document.getElementById('lockIcon');
     const statusTitle = document.getElementById('statusTitle');
     const statusSubtitle = document.getElementById('statusSubtitle');
+    const btnBannerClose = document.getElementById('btnBannerClose');
+
+    const btnSoundToggle = document.getElementById('btnSoundToggle');
+    const soundIcon = document.getElementById('soundIcon');
 
     const pageOwner = document.getElementById('pageOwner');
     const pageDelivery = document.getElementById('pageDelivery');
@@ -761,10 +1036,96 @@
     const inputOtp = document.getElementById('inputOtp');
     const btnUnlock = document.getElementById('btnUnlock');
     const btnLock = document.getElementById('btnLock');
-    const btnBannerClose = document.getElementById('btnBannerClose');
     const deliveryMsg = document.getElementById('deliveryMsg');
 
-    /* Owner Authentication Logic */
+    const activityList = document.getElementById('activityList');
+    const btnClearLogs = document.getElementById('btnClearLogs');
+
+    /* ==========================================================================
+       Sound Synthesis (Web Audio API - Zero External Dependencies)
+       ========================================================================== */
+    function playTone(freq, duration, type = 'sine') {
+      if (!soundEnabled) return;
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) { }
+    }
+
+    function playUnlockSound() {
+      playTone(523.25, 0.12, 'sine'); // C5
+      setTimeout(() => playTone(659.25, 0.2, 'sine'), 100); // E5
+    }
+
+    function playLockSound() {
+      playTone(440, 0.12, 'sine'); // A4
+      setTimeout(() => playTone(349.23, 0.2, 'sine'), 100); // F4
+    }
+
+    btnSoundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem('box_sound_enabled', soundEnabled ? 'true' : 'false');
+      soundIcon.textContent = soundEnabled ? '🔔' : '🔕';
+      if (soundEnabled) playTone(587.33, 0.1);
+    });
+
+    /* ==========================================================================
+       Activity Logger (Persistent Audit Trail)
+       ========================================================================== */
+    function logActivity(text) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      let logs = [];
+      try {
+        logs = JSON.parse(localStorage.getItem('box_activity_logs') || '[]');
+      } catch (e) { }
+
+      logs.unshift({ text, time: timeStr });
+      if (logs.length > 20) logs.pop();
+      try {
+        localStorage.setItem('box_activity_logs', JSON.stringify(logs));
+      } catch (e) { }
+
+      renderActivityLogs();
+    }
+
+    function renderActivityLogs() {
+      let logs = [];
+      try {
+        logs = JSON.parse(localStorage.getItem('box_activity_logs') || '[]');
+      } catch (e) { }
+
+      if (logs.length === 0) {
+        activityList.innerHTML = `<li class="activity-item"><span>System ready</span><span class="activity-item-time">Ready</span></li>`;
+        return;
+      }
+
+      activityList.innerHTML = logs.map(item => `
+        <li class="activity-item">
+          <span>${item.text}</span>
+          <span class="activity-item-time">${item.time}</span>
+        </li>
+      `).join('');
+    }
+
+    btnClearLogs.addEventListener('click', () => {
+      localStorage.removeItem('box_activity_logs');
+      renderActivityLogs();
+    });
+
+    /* ==========================================================================
+       Owner Authentication Logic
+       ========================================================================== */
     function checkOwnerAuth() {
       const isAuth = localStorage.getItem('owner_authenticated') === 'true';
       if (isAuth) {
@@ -790,14 +1151,17 @@
         localStorage.setItem('owner_authenticated', 'true');
         sessionStorage.setItem('owner_authenticated', 'true');
         showOwnerLoginMsg("Sign in successful!", "success");
+        playTone(600, 0.15);
         setTimeout(() => {
           checkOwnerAuth();
           ownerUserInput.value = "";
           ownerPassInput.value = "";
           ownerLoginMsg.className = "msg";
-        }, 500);
+          syncOtpState();
+        }, 400);
       } else {
-        showOwnerLoginMsg("Invalid credentials. Use: owner / box123", "error");
+        showOwnerLoginMsg("Invalid credentials.", "error");
+        playTone(250, 0.2, 'square');
       }
     }
 
@@ -814,10 +1178,13 @@
         localStorage.removeItem('owner_authenticated');
         sessionStorage.removeItem('owner_authenticated');
         checkOwnerAuth();
+        logActivity("Owner signed out");
       });
     }
 
-    /* Page Navigation (Owner vs Delivery Person) */
+    /* ==========================================================================
+       Page Navigation (Tabs)
+       ========================================================================== */
     function switchPage(page) {
       if (page === 'delivery') {
         pageOwner.classList.remove('active');
@@ -839,80 +1206,99 @@
     tabOwner.addEventListener('click', () => switchPage('owner'));
     tabDelivery.addEventListener('click', () => switchPage('delivery'));
 
-    // Check hash and auth on load
-    window.addEventListener('DOMContentLoaded', () => {
-      checkOwnerAuth();
-      if (window.location.hash === '#delivery') {
-        switchPage('delivery');
-      }
-    });
-
-    /* Web Serial Communication */
-    btnConnect.addEventListener('click', async () => {
+    /* ==========================================================================
+       Persistent Web Serial Communication
+       ========================================================================== */
+    async function initSerialConnection(auto = false) {
       if (!('serial' in navigator)) {
-        alert('Web Serial is not supported in this browser. Please use Google Chrome or Microsoft Edge on a desktop computer.');
+        if (!auto) alert('Web Serial API is not supported in this browser. Please use Chrome or Edge on desktop.');
         return;
       }
 
-      // Disconnect if already open
+      // If already connected, disconnect
       if (port && port.readable) {
         keepReading = false;
         try {
           if (reader) await reader.cancel();
           await port.close();
-        } catch (e) {}
+        } catch (e) { }
         port = null;
         reader = null;
-        btnConnect.classList.remove('connected');
+        localStorage.removeItem('box_serial_auto');
+        btnConnect.className = 'connect-btn';
         connectLabel.textContent = 'Connect Box';
         showMsg("ESP32 disconnected.", "info");
+        logActivity("ESP32 disconnected");
         return;
       }
 
       try {
-        // Request user port selection
-        const selectedPort = await navigator.serial.requestPort();
-        connectLabel.textContent = 'Connecting...';
+        let selectedPort = null;
 
-        // Open serial connection at 9600 baud
-        await selectedPort.open({ baudRate: 9600 });
+        if (auto) {
+          // Look for previously authorized ports
+          const existingPorts = await navigator.serial.getPorts();
+          if (existingPorts.length > 0) {
+            selectedPort = existingPorts[0];
+          } else {
+            return; // No prior authorization; user must click manually
+          }
+        } else {
+          btnConnect.className = 'connect-btn pending';
+          connectLabel.textContent = 'Selecting...';
+          selectedPort = await navigator.serial.requestPort();
+        }
+
+        btnConnect.className = 'connect-btn pending';
+        connectLabel.textContent = 'Opening...';
+
+        await selectedPort.open({ baudRate: SERIAL_BAUD_RATE });
         port = selectedPort;
 
-        btnConnect.classList.add('connected');
+        localStorage.setItem('box_serial_auto', 'true');
+        btnConnect.className = 'connect-btn connected';
         connectLabel.textContent = 'Box Connected';
-        showMsg("ESP32 connected successfully at 9600 baud!", "success");
+        showMsg("ESP32 connected successfully (9600 baud).", "success");
+        playTone(800, 0.12);
+        logActivity("ESP32 serial connected");
 
-        // Start reading feedback loop
         startReading();
       } catch (err) {
         port = null;
         reader = null;
-        btnConnect.classList.remove('connected');
+        btnConnect.className = 'connect-btn';
         connectLabel.textContent = 'Connect Box';
 
         const msg = (err.message || "").toLowerCase();
-        if (msg.includes("failed to open") || msg.includes("access denied") || msg.includes("already open") || msg.includes("busy")) {
-          alert("⚠️ Could not open ESP32 Serial Port!\n\nReason: The COM port is locked by another program.\n\n👉 PLEASE CLOSE THE ARDUINO IDE SERIAL MONITOR, then click 'Connect Box' again.");
-          showMsg("COM port locked by another app (e.g. Arduino IDE Serial Monitor). Close it and retry.", "error");
-        } else if (msg.includes("no port selected") || msg.includes("cancelled")) {
-          showMsg("Port selection cancelled.", "info");
-        } else {
-          alert("Serial Connection Error: " + err.message);
-          showMsg("Failed to open port: " + err.message, "error");
+        if (msg.includes("failed to open") || msg.includes("access denied") || msg.includes("busy")) {
+          alert("⚠️ Could not open ESP32 Serial Port!\n\nReason: Port is in use by another app.\n👉 Please CLOSE Arduino IDE Serial Monitor and retry.");
+          showMsg("Port locked by another program (e.g. Arduino Serial Monitor).", "error");
+        } else if (!auto && !msg.includes("cancelled") && !msg.includes("no port selected")) {
+          showMsg("Connection failed: " + err.message, "error");
         }
       }
-    });
+    }
 
-    // Auto-detect physical USB unplug
+    btnConnect.addEventListener('click', () => initSerialConnection(false));
+
+    // Listen for physical USB re-plug / unplug
     if ('serial' in navigator) {
-      navigator.serial.addEventListener('disconnect', (event) => {
-        if (port && event.port === port) {
+      navigator.serial.addEventListener('connect', (e) => {
+        logActivity("ESP32 USB plugged in");
+        if (localStorage.getItem('box_serial_auto') === 'true' && !port) {
+          initSerialConnection(true);
+        }
+      });
+
+      navigator.serial.addEventListener('disconnect', (e) => {
+        if (port && e.port === port) {
           keepReading = false;
           port = null;
           reader = null;
-          btnConnect.classList.remove('connected');
+          btnConnect.className = 'connect-btn';
           connectLabel.textContent = 'Connect Box';
           showMsg("ESP32 USB cable physically disconnected.", "error");
+          logActivity("ESP32 USB unplugged");
         }
       });
     }
@@ -923,7 +1309,7 @@
         return false;
       }
       if (!port.writable) {
-        showMsg("Serial port is not writable. Click 'Connect Box' to reconnect.", "error");
+        showMsg("Serial port is not writable. Please reconnect.", "error");
         return false;
       }
       let writer;
@@ -937,7 +1323,7 @@
         return false;
       } finally {
         if (writer) {
-          try { writer.releaseLock(); } catch(err) {}
+          try { writer.releaseLock(); } catch (err) { }
         }
       }
     }
@@ -964,68 +1350,140 @@
             }
           }
         } catch (err) {
-          // stream aborted
+          // Stream interrupted
         } finally {
           if (reader) {
-            try { reader.releaseLock(); } catch(e) {}
+            try { reader.releaseLock(); } catch (e) { }
           }
         }
       }
     }
 
-    // Firmware Acknowledgements
+    /* ==========================================================================
+       Physical Hardware State Handling (Reversed Angles: 0 deg = Unlock, 90 deg = Lock)
+       ========================================================================== */
     function handleAck(line) {
       if (line.includes("ACK: UNLOCKED") || line.includes("UNLOCKED")) {
         clearTimeout(ackTimeout);
         boxPhysicalState = 'UNLOCKED';
         statusCard.className = "status-card state-unlocked";
         lockIcon.textContent = "🔓";
-        statusTitle.textContent = "Box Unlocked";
-        statusSubtitle.textContent = "Door latch open (90°)";
-        btnUnlock.style.display = 'none';
+        statusTitle.textContent = "Box Unlocked (0°)";
+        statusSubtitle.textContent = "Door latch retracted at 0°";
+        btnUnlock.classList.add('hidden');
         btnLock.className = "btn btn-lock";
-        btnLock.textContent = "🔒 Lock Box Now";
-        showMsg("Box unlocked successfully! Please place the package inside.", "success");
-      } else if (line.includes("ACK: LOCKED") || line.includes("LOCKED")) {
+        btnLock.textContent = "🔒 Relock Box (90°)";
+        showMsg("Box unlocked successfully! Please place parcel inside.", "success");
+        playUnlockSound();
+        logActivity("Box unlocked at 0°");
+      }
+      else if (line.includes("ACK: LOCKED") || line.includes("LOCKED")) {
         clearTimeout(ackTimeout);
         boxPhysicalState = 'LOCKED';
         statusCard.className = "status-card state-locked";
         lockIcon.textContent = "🔒";
-        statusTitle.textContent = "Box Locked";
-        statusSubtitle.textContent = "Secure & ready for delivery";
-        btnUnlock.style.display = 'inline-flex';
+        statusTitle.textContent = "Box Locked (90°)";
+        statusSubtitle.textContent = "Secure & latch engaged at 90°";
+        btnUnlock.classList.remove('hidden');
         btnLock.className = "btn btn-lock btn-secondary-lock";
-        btnLock.textContent = "🔒 Close Box (0°)";
+        btnLock.textContent = "🔒 Close Box (90°)";
         showMsg("Box locked securely.", "info");
+        playLockSound();
+        logActivity("Box locked at 90°");
       }
     }
 
     function setPendingState(target) {
       statusCard.className = "status-card state-pending";
       lockIcon.textContent = "⏳";
-      statusTitle.textContent = target === 'UNLOCKED' ? "Unlocking..." : "Locking...";
-      statusSubtitle.textContent = "Awaiting hardware confirmation...";
+      statusTitle.textContent = target === 'UNLOCKED' ? "Unlocking to 0°..." : "Locking to 90°...";
+      statusSubtitle.textContent = "Awaiting physical hardware confirmation...";
 
       clearTimeout(ackTimeout);
       ackTimeout = setTimeout(() => {
         if (boxPhysicalState === 'AWAITING_UNLOCK' || boxPhysicalState === 'AWAITING_LOCK') {
-          statusSubtitle.textContent = "No response from ESP32. Check USB connection.";
+          statusSubtitle.textContent = "No response from ESP32. Check USB connection & 9600 baud.";
         }
-      }, 5000);
+      }, 5500);
     }
 
-    /* Owner OTP Generation */
+    /* ==========================================================================
+       Persistent OTP Generation & Real-Time Sync
+       ========================================================================== */
+    function syncOtpState() {
+      try {
+        const storedOtp = localStorage.getItem('box_otp');
+        const storedExpires = localStorage.getItem('box_otp_expires');
+        const storedStatus = localStorage.getItem('box_otp_status');
+
+        if (storedOtp && storedExpires) {
+          const exp = parseInt(storedExpires, 10);
+          const diff = exp - Date.now();
+
+          if (storedStatus === 'USED') {
+            activeOtp = storedOtp;
+            otpStatus = 'USED';
+            clearInterval(timerInterval);
+            otpDigits.textContent = activeOtp;
+            otpDigits.classList.remove('placeholder');
+            otpTag.className = "otp-tag tag-used";
+            otpTag.textContent = "Used";
+            btnCopy.classList.remove('hidden');
+            timerContainer.classList.add('hidden');
+          } else if (diff > 0 && storedStatus === 'ACTIVE') {
+            activeOtp = storedOtp;
+            otpExpiresAt = exp;
+            otpStatus = 'ACTIVE';
+            otpDigits.textContent = activeOtp;
+            otpDigits.classList.remove('placeholder');
+            otpTag.className = "otp-tag tag-active";
+            otpTag.textContent = "Active";
+            btnCopy.classList.remove('hidden');
+            timerContainer.classList.remove('hidden');
+            startTimer();
+          } else {
+            activeOtp = storedOtp;
+            otpStatus = 'EXPIRED';
+            localStorage.setItem('box_otp_status', 'EXPIRED');
+            clearInterval(timerInterval);
+            otpDigits.textContent = activeOtp;
+            otpDigits.classList.remove('placeholder');
+            otpTag.className = "otp-tag tag-expired";
+            otpTag.textContent = "Expired";
+            timerText.textContent = "00:00";
+            timerFill.style.width = "0%";
+            btnCopy.classList.remove('hidden');
+            timerContainer.classList.remove('hidden');
+          }
+        } else {
+          activeOtp = null;
+          otpStatus = 'NONE';
+          otpDigits.textContent = "------";
+          otpDigits.classList.add('placeholder');
+          otpTag.className = "otp-tag tag-none";
+          otpTag.textContent = "No Active Code";
+          btnCopy.classList.add('hidden');
+          timerContainer.classList.add('hidden');
+        }
+      } catch (e) { }
+    }
+
     function generateOtp() {
       activeOtp = Math.floor(100000 + Math.random() * 900000).toString();
       otpStatus = 'ACTIVE';
       otpExpiresAt = Date.now() + OTP_SECONDS * 1000;
 
-      // Save to localStorage so separate tabs/pages sync
+      // Persist in localStorage
       try {
         localStorage.setItem('box_otp', activeOtp);
         localStorage.setItem('box_otp_expires', otpExpiresAt.toString());
         localStorage.setItem('box_otp_status', 'ACTIVE');
-      } catch (e) {}
+      } catch (e) { }
+
+      // Broadcast to other tabs
+      if (broadcastChannel) {
+        broadcastChannel.postMessage({ type: 'OTP_UPDATED' });
+      }
 
       otpDigits.textContent = activeOtp;
       otpDigits.classList.remove('placeholder');
@@ -1034,6 +1492,8 @@
       btnCopy.classList.remove('hidden');
       timerContainer.classList.remove('hidden');
 
+      playTone(700, 0.12);
+      logActivity(`New OTP #${activeOtp} generated`);
       startTimer();
     }
 
@@ -1054,11 +1514,12 @@
       if (diff <= 0) {
         clearInterval(timerInterval);
         otpStatus = 'EXPIRED';
-        try { localStorage.setItem('box_otp_status', 'EXPIRED'); } catch(e) {}
+        try { localStorage.setItem('box_otp_status', 'EXPIRED'); } catch (e) { }
         otpTag.className = "otp-tag tag-expired";
         otpTag.textContent = "Expired";
         timerText.textContent = "00:00";
         timerFill.style.width = "0%";
+        logActivity(`OTP #${activeOtp} expired`);
         return;
       }
       const secs = Math.ceil(diff / 1000);
@@ -1078,57 +1539,54 @@
       if (!activeOtp || otpStatus !== 'ACTIVE') return;
       navigator.clipboard.writeText(activeOtp);
       btnCopy.textContent = "✓ Copied!";
+      playTone(900, 0.08);
       setTimeout(() => { btnCopy.textContent = "📋 Copy Code"; }, 1500);
     }
 
     btnCopy.addEventListener('click', copyOtp);
 
-    /* Courier Verification */
+    /* ==========================================================================
+       Courier Verification & Box Unlock (90 deg)
+       ========================================================================== */
     async function verifyAndUnlock() {
       const code = inputOtp.value.trim();
       if (!code) {
         showMsg("Please enter the 6-digit code.", "error");
+        inputOtp.focus();
         return;
       }
 
-      // Check current in-memory or localStorage OTP
-      let targetOtp = activeOtp;
-      let targetStatus = otpStatus;
-      let targetExpires = otpExpiresAt;
+      let storedOtp = localStorage.getItem('box_otp') || activeOtp;
+      let storedStatus = localStorage.getItem('box_otp_status') || otpStatus;
+      let storedExpires = localStorage.getItem('box_otp_expires') || otpExpiresAt;
 
-      try {
-        const storedOtp = localStorage.getItem('box_otp');
-        const storedStatus = localStorage.getItem('box_otp_status');
-        const storedExpires = localStorage.getItem('box_otp_expires');
-        if (storedOtp) {
-          targetOtp = storedOtp;
-          targetStatus = storedStatus || targetStatus;
-          targetExpires = storedExpires ? parseInt(storedExpires, 10) : targetExpires;
-        }
-      } catch (e) {}
-
-      if (!targetOtp || targetStatus === 'NONE') {
-        showMsg("No code has been generated by the owner yet.", "error");
+      if (!storedOtp || storedStatus === 'NONE') {
+        showMsg("No delivery code has been generated by the owner.", "error");
         return;
       }
-      if (targetStatus === 'USED') {
+      if (storedStatus === 'USED') {
         showMsg("This code has already been used.", "error");
         return;
       }
-      if (targetStatus === 'EXPIRED' || (targetExpires && Date.now() > targetExpires)) {
-        showMsg("This code has expired. Request a new code from owner.", "error");
+      if (storedStatus === 'EXPIRED' || (storedExpires && Date.now() > parseInt(storedExpires, 10))) {
+        showMsg("This delivery code has expired.", "error");
         return;
       }
-      if (code !== targetOtp) {
-        showMsg("Incorrect code. Please try again.", "error");
+      if (code !== storedOtp) {
+        showMsg("Incorrect code. Access denied.", "error");
+        playTone(220, 0.25, 'sawtooth');
         return;
       }
 
-      // Valid OTP: Single-use
+      // Valid OTP: Single-use invalidation
       otpStatus = 'USED';
       try {
         localStorage.setItem('box_otp_status', 'USED');
-      } catch (e) {}
+      } catch (e) { }
+
+      if (broadcastChannel) {
+        broadcastChannel.postMessage({ type: 'OTP_UPDATED' });
+      }
 
       clearInterval(timerInterval);
       otpTag.className = "otp-tag tag-used";
@@ -1139,19 +1597,23 @@
       boxPhysicalState = 'AWAITING_UNLOCK';
       setPendingState('UNLOCKED');
 
-      const sent = await sendSerial("1\n");
+      logActivity(`Courier verified OTP #${code}`);
+      const sent = await sendSerial(SERVO_UNLOCK_CMD);
       if (sent) {
-        showMsg("Code verified! Unlocking box...", "info");
+        showMsg("Code verified! Unlocking latch to 0°...", "info");
       }
     }
 
     btnUnlock.addEventListener('click', verifyAndUnlock);
 
-    /* Manual Relock */
+    /* ==========================================================================
+       Manual Relock (90 deg)
+       ========================================================================== */
     async function manualRelock() {
       boxPhysicalState = 'AWAITING_LOCK';
       setPendingState('LOCKED');
-      await sendSerial("0\n");
+      logActivity("Relock command sent (90°)");
+      await sendSerial(SERVO_LOCK_CMD);
     }
 
     btnLock.addEventListener('click', manualRelock);
@@ -1172,6 +1634,55 @@
     inputOtp.addEventListener('input', (e) => {
       e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
+
+    /* ==========================================================================
+       Cross-Tab Synchronization
+       ========================================================================== */
+    window.addEventListener('storage', (e) => {
+      if (e.key && e.key.startsWith('box_otp')) {
+        syncOtpState();
+      }
+      if (e.key === 'box_activity_logs') {
+        renderActivityLogs();
+      }
+    });
+
+    if (broadcastChannel) {
+      broadcastChannel.onmessage = (event) => {
+        if (event.data && event.data.type === 'OTP_UPDATED') {
+          syncOtpState();
+        }
+      };
+    }
+
+    /* ==========================================================================
+       Initialization on Load
+       ========================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      checkOwnerAuth();
+      syncOtpState();
+      renderActivityLogs();
+
+      soundIcon.textContent = soundEnabled ? '🔔' : '🔕';
+
+      if (window.location.hash === '#delivery') {
+        switchPage('delivery');
+      }
+
+      // Check URL param ?otp=123456
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlOtp = urlParams.get('otp');
+      if (urlOtp && urlOtp.length === 6) {
+        inputOtp.value = urlOtp;
+        switchPage('delivery');
+      }
+
+      // Attempt silent auto-connect if user previously paired box
+      if (localStorage.getItem('box_serial_auto') === 'true') {
+        initSerialConnection(true);
+      }
+    });
   </script>
 </body>
+
 </html>

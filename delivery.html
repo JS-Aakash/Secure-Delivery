@@ -6,7 +6,7 @@
   <title>Parcel Box - Delivery Courier</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after {
@@ -16,32 +16,59 @@
     }
 
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(18, 24, 38, 0.85);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --primary: #6366f1;
-      --emerald: #10b981;
-      --rose: #f43f5e;
-      --amber: #f59e0b;
-      --font: 'Plus Jakarta Sans', sans-serif;
-      --mono: 'JetBrains Mono', monospace;
+      --bg-page: #f6f3ee;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1ece4;
+      --bg-chip: #e8e1d5;
+      
+      --border-light: #e4ddd3;
+      --border-strong: #c8beb0;
+      
+      --text-main: #241a13;
+      --text-secondary: #5e5044;
+      --text-muted: #847466;
+      --text-dim: #a6988c;
+      
+      --brand-primary: #5c4033;
+      --brand-accent: #a3693f;
+      
+      --status-unlocked-bg: #eef6f0;
+      --status-unlocked-border: #c8e5d0;
+      --status-unlocked-text: #1e5a38;
+      
+      --status-locked-bg: #fdf2f0;
+      --status-locked-border: #f5cdc6;
+      --status-locked-text: #962a1b;
+
+      --status-pending-bg: #fdf6ec;
+      --status-pending-border: #f4deaf;
+      --status-pending-text: #8e5406;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 1px 3px rgba(60, 45, 30, 0.04);
+      --shadow-md: 0 4px 16px rgba(60, 45, 30, 0.06), 0 1px 3px rgba(60, 45, 30, 0.03);
     }
 
     body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 3.5rem;
       background-image: 
-        radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 90% 90%, rgba(16, 185, 129, 0.08) 0%, transparent 45%);
+        radial-gradient(ellipse at 15% 10%, rgba(195, 160, 130, 0.14) 0%, transparent 60%),
+        radial-gradient(ellipse at 85% 90%, rgba(160, 125, 95, 0.1) 0%, transparent 60%);
+      line-height: 1.5;
     }
 
     .app-shell {
@@ -62,17 +89,27 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.65rem;
     }
 
     .brand-icon {
-      font-size: 1.5rem;
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #ffffff;
+      box-shadow: 0 3px 10px rgba(92, 64, 51, 0.25);
     }
 
     .brand-name {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: -0.02em;
+      color: var(--text-main);
     }
 
     .connect-btn {
@@ -80,49 +117,56 @@
       align-items: center;
       gap: 0.45rem;
       font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.45rem 0.85rem;
-      border-radius: 9999px;
-      border: 1px solid var(--card-border);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-light);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
     }
 
     .connect-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--text);
+      background: var(--bg-subtle);
+      border-color: var(--border-strong);
+      color: var(--text-main);
     }
 
     .connect-btn.connected {
-      border-color: rgba(16, 185, 129, 0.4);
-      background: rgba(16, 185, 129, 0.12);
-      color: #34d399;
+      border-color: var(--status-unlocked-border);
+      background: var(--status-unlocked-bg);
+      color: var(--status-unlocked-text);
+    }
+
+    .connect-btn.pending {
+      border-color: var(--status-pending-border);
+      background: var(--status-pending-bg);
+      color: var(--status-pending-text);
     }
 
     .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
       background: var(--text-dim);
     }
 
     .connected .dot {
-      background: var(--emerald);
-      box-shadow: 0 0 8px var(--emerald);
+      background: #285c41;
+      box-shadow: 0 0 6px rgba(40, 92, 65, 0.6);
     }
 
-    /* Box Hardware Status Banner */
     .status-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
       padding: 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
     }
 
     .status-left {
@@ -134,56 +178,74 @@
     .lock-pill-icon {
       width: 44px;
       height: 44px;
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       transition: all 0.3s;
     }
 
     .state-locked .lock-pill-icon {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: var(--rose);
+      background: var(--status-locked-bg);
+      border: 1px solid var(--status-locked-border);
+      color: var(--status-locked-text);
     }
 
     .state-unlocked .lock-pill-icon {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: var(--emerald);
+      background: var(--status-unlocked-bg);
+      border: 1px solid var(--status-unlocked-border);
+      color: var(--status-unlocked-text);
     }
 
     .state-pending .lock-pill-icon {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: var(--amber);
-      animation: spin-pulse 1.2s infinite;
-    }
-
-    @keyframes spin-pulse {
-      0% { transform: scale(0.96); opacity: 0.8; }
-      50% { transform: scale(1.05); opacity: 1; }
-      100% { transform: scale(0.96); opacity: 0.8; }
+      background: var(--status-pending-bg);
+      border: 1px solid var(--status-pending-border);
+      color: var(--status-pending-text);
     }
 
     .status-title {
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 800;
+      color: var(--text-main);
     }
 
     .status-subtitle {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 500;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 1px;
+    }
+
+    .btn-banner-close {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-banner-close:hover {
+      background: var(--bg-chip);
+      color: var(--text-main);
+      border-color: var(--border-strong);
     }
 
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
       padding: 1.75rem 1.5rem;
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
@@ -193,47 +255,49 @@
       font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: -0.01em;
+      color: var(--text-main);
     }
 
     .card-desc {
       font-size: 0.88rem;
-      color: var(--text-muted);
+      font-weight: 500;
+      color: var(--text-secondary);
       line-height: 1.45;
     }
 
     .input-otp {
       width: 100%;
-      background: #060912;
-      border: 2px solid var(--card-border);
-      border-radius: 14px;
-      color: #ffffff;
-      font-family: var(--mono);
-      font-size: 2rem;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 2.25rem;
       font-weight: 700;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.3em;
       text-align: center;
       padding: 0.75rem 1rem;
       outline: none;
-      transition: border 0.2s;
+      transition: all 0.2s;
     }
 
     .input-otp:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(163, 105, 63, 0.15);
     }
 
     .input-otp::placeholder {
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       color: var(--text-dim);
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     .btn {
-      font-family: var(--font);
+      font-family: var(--font-sans);
       font-size: 1rem;
       font-weight: 700;
       padding: 0.85rem 1.25rem;
-      border-radius: 14px;
+      border-radius: var(--radius-md);
       border: none;
       cursor: pointer;
       display: inline-flex;
@@ -248,95 +312,64 @@
       transform: translateY(1px);
     }
 
-    .btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
     .btn-unlock {
-      background: linear-gradient(135deg, #059669, #047857);
-      color: white;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+      background: #285c41;
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(40, 92, 65, 0.25);
     }
-    .btn-unlock:hover:not(:disabled) {
-      background: linear-gradient(135deg, #10b981, #059669);
+    .btn-unlock:hover {
+      background: #1f4732;
     }
 
     .btn-lock {
-      background: linear-gradient(135deg, #e11d48, #be123c);
-      color: white;
-      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.35);
+      background: #962a1b;
+      color: #ffffff;
+      box-shadow: 0 3px 12px rgba(150, 42, 27, 0.25);
     }
-    .btn-lock:hover:not(:disabled) {
-      background: linear-gradient(135deg, #f43f5e, #e11d48);
+    .btn-lock:hover {
+      background: #7a2215;
     }
 
     .btn-secondary-lock {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: #fda4af;
-      box-shadow: none;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
     }
-    .btn-secondary-lock:hover:not(:disabled) {
-      background: rgba(244, 63, 94, 0.25);
-      color: #fff;
-    }
-
-    .btn-banner-close {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid rgba(244, 63, 94, 0.35);
-      color: #fda4af;
-      font-family: var(--font);
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 0.45rem 0.85rem;
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .btn-banner-close:hover {
-      background: rgba(244, 63, 94, 0.3);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(244, 63, 94, 0.3);
-    }
-    .btn-banner-close:active {
-      transform: translateY(1px);
+    .btn-secondary-lock:hover {
+      background: var(--bg-chip);
     }
 
     .msg {
       font-size: 0.88rem;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
+      font-weight: 600;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
       display: none;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
     }
 
     .msg.show {
       display: flex;
-      animation: fadeIn 0.2s ease;
     }
 
     .msg-error {
-      background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      color: #fda4af;
+      background: var(--status-locked-bg);
+      border: 1px solid var(--status-locked-border);
+      color: var(--status-locked-text);
     }
 
     .msg-success {
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #6ee7b7;
+      background: var(--status-unlocked-bg);
+      border: 1px solid var(--status-unlocked-border);
+      color: var(--status-unlocked-text);
     }
 
     .msg-info {
-      background: rgba(99, 102, 241, 0.12);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      color: #c7d2fe;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
     }
 
     .sr-only {
@@ -351,9 +384,8 @@
       border-width: 0;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -362,8 +394,8 @@
   <div class="app-shell">
     <header class="top-bar">
       <div class="brand">
-        <span class="brand-icon">📦</span>
-        <span class="brand-name">Delivery Courier</span>
+        <div class="brand-icon">📦</div>
+        <span class="brand-name">Courier Access</span>
       </div>
       <button id="btnConnect" class="connect-btn" type="button" title="Connect Box via USB">
         <span class="dot"></span>
@@ -376,18 +408,18 @@
       <div class="status-left">
         <div class="lock-pill-icon" id="lockIcon">🔒</div>
         <div>
-          <div class="status-title" id="statusTitle">Box Locked</div>
-          <div class="status-subtitle" id="statusSubtitle">Secure &amp; ready for delivery</div>
+          <div class="status-title" id="statusTitle">Box Locked (90°)</div>
+          <div class="status-subtitle" id="statusSubtitle">Secure &amp; latch engaged</div>
         </div>
       </div>
-      <button id="btnBannerClose" class="btn-banner-close" type="button" title="Close / Lock Box (Send 0)">
-        🔒 Close Box
+      <button id="btnBannerClose" class="btn-banner-close" type="button" title="Rotate Servo to 90° (Lock)">
+        🔒 Close Box (90°)
       </button>
     </div>
 
     <main class="card">
       <h1 class="card-title">Courier Access</h1>
-      <p class="card-desc">Enter the 6-digit OTP code provided by the box owner to unlock the box.</p>
+      <p class="card-desc">Enter the 6-digit OTP code provided by the box owner to unlock the latch.</p>
 
       <label for="inputOtp" class="sr-only">Enter 6-Digit Delivery Code</label>
       <input 
@@ -402,12 +434,11 @@
       >
 
       <button id="btnUnlock" class="btn btn-unlock" type="button">
-        🔓 Unlock Box
+        🔓 Unlock Box (0°)
       </button>
 
-      <!-- Close Box Option (Available for demo or relocking) -->
       <button id="btnLock" class="btn btn-lock btn-secondary-lock" type="button">
-        🔒 Close Box (0°)
+        🔒 Close Box (90°)
       </button>
 
       <div id="deliveryMsg" class="msg" role="status"></div>
@@ -415,11 +446,20 @@
   </div>
 
   <script>
+    const SERVO_UNLOCK_CMD = "1\n"; // Commands ESP32 to rotate to 0 degrees
+    const SERVO_LOCK_CMD   = "0\n"; // Commands ESP32 to rotate to 90 degrees
+    const SERIAL_BAUD_RATE = 9600;
+
     let port = null;
     let reader = null;
     let keepReading = false;
     let boxPhysicalState = 'LOCKED';
     let ackTimeout = null;
+
+    let broadcastChannel = null;
+    try {
+      broadcastChannel = new BroadcastChannel('parcel_box_channel');
+    } catch(e) {}
 
     const btnConnect = document.getElementById('btnConnect');
     const connectLabel = document.getElementById('connectLabel');
@@ -427,21 +467,20 @@
     const lockIcon = document.getElementById('lockIcon');
     const statusTitle = document.getElementById('statusTitle');
     const statusSubtitle = document.getElementById('statusSubtitle');
+    const btnBannerClose = document.getElementById('btnBannerClose');
 
     const inputOtp = document.getElementById('inputOtp');
     const btnUnlock = document.getElementById('btnUnlock');
     const btnLock = document.getElementById('btnLock');
-    const btnBannerClose = document.getElementById('btnBannerClose');
     const deliveryMsg = document.getElementById('deliveryMsg');
 
     /* Web Serial Communication */
-    btnConnect.addEventListener('click', async () => {
+    async function initSerialConnection(auto = false) {
       if (!('serial' in navigator)) {
-        alert('Web Serial is not supported in this browser. Please use Google Chrome or Microsoft Edge on a desktop computer.');
+        if (!auto) alert('Web Serial is not supported in this browser. Please use Chrome or Edge.');
         return;
       }
 
-      // Disconnect if already open
       if (port && port.readable) {
         keepReading = false;
         try {
@@ -450,67 +489,45 @@
         } catch (e) {}
         port = null;
         reader = null;
-        btnConnect.classList.remove('connected');
+        localStorage.removeItem('box_serial_auto');
+        btnConnect.className = 'connect-btn';
         connectLabel.textContent = 'Connect Box';
-        showMsg("ESP32 disconnected.", "info");
         return;
       }
 
       try {
-        // Request user port selection
-        const selectedPort = await navigator.serial.requestPort();
-        connectLabel.textContent = 'Connecting...';
+        let selectedPort = null;
+        if (auto) {
+          const ports = await navigator.serial.getPorts();
+          if (ports.length > 0) selectedPort = ports[0];
+          else return;
+        } else {
+          selectedPort = await navigator.serial.requestPort();
+        }
 
-        // Open serial connection at 9600 baud
-        await selectedPort.open({ baudRate: 9600 });
+        await selectedPort.open({ baudRate: SERIAL_BAUD_RATE });
         port = selectedPort;
-
-        btnConnect.classList.add('connected');
+        localStorage.setItem('box_serial_auto', 'true');
+        btnConnect.className = 'connect-btn connected';
         connectLabel.textContent = 'Box Connected';
-        showMsg("ESP32 connected successfully at 9600 baud!", "success");
-
-        // Start reading feedback loop
+        showMsg("ESP32 connected successfully.", "success");
         startReading();
       } catch (err) {
         port = null;
         reader = null;
-        btnConnect.classList.remove('connected');
+        btnConnect.className = 'connect-btn';
         connectLabel.textContent = 'Connect Box';
-
-        const msg = (err.message || "").toLowerCase();
-        if (msg.includes("failed to open") || msg.includes("access denied") || msg.includes("already open") || msg.includes("busy")) {
-          alert("⚠️ Could not open ESP32 Serial Port!\n\nReason: The COM port is locked by another program.\n\n👉 PLEASE CLOSE THE ARDUINO IDE SERIAL MONITOR, then click 'Connect Box' again.");
-          showMsg("COM port locked by another app (e.g. Arduino IDE Serial Monitor). Close it and retry.", "error");
-        } else if (msg.includes("no port selected") || msg.includes("cancelled")) {
-          showMsg("Port selection cancelled.", "info");
-        } else {
-          alert("Serial Connection Error: " + err.message);
-          showMsg("Failed to open port: " + err.message, "error");
+        if (!auto) {
+          showMsg("Connection failed: " + err.message, "error");
         }
       }
-    });
-
-    // Auto-detect physical USB unplug
-    if ('serial' in navigator) {
-      navigator.serial.addEventListener('disconnect', (event) => {
-        if (port && event.port === port) {
-          keepReading = false;
-          port = null;
-          reader = null;
-          btnConnect.classList.remove('connected');
-          connectLabel.textContent = 'Connect Box';
-          showMsg("ESP32 USB cable physically disconnected.", "error");
-        }
-      });
     }
 
+    btnConnect.addEventListener('click', () => initSerialConnection(false));
+
     async function sendSerial(cmd) {
-      if (!port) {
+      if (!port || !port.writable) {
         showMsg("ESP32 is not connected via USB. Click 'Connect Box' first.", "error");
-        return false;
-      }
-      if (!port.writable) {
-        showMsg("Serial port is not writable. Click 'Connect Box' to reconnect.", "error");
         return false;
       }
       let writer;
@@ -551,7 +568,6 @@
             }
           }
         } catch (err) {
-          // stream aborted
         } finally {
           if (reader) {
             try { reader.releaseLock(); } catch(e) {}
@@ -566,22 +582,22 @@
         boxPhysicalState = 'UNLOCKED';
         statusCard.className = "status-card state-unlocked";
         lockIcon.textContent = "🔓";
-        statusTitle.textContent = "Box Unlocked";
-        statusSubtitle.textContent = "Door latch open (90°)";
-        btnUnlock.style.display = 'none';
+        statusTitle.textContent = "Box Unlocked (0°)";
+        statusSubtitle.textContent = "Door latch open (0°)";
+        btnUnlock.classList.add('hidden');
         btnLock.className = "btn btn-lock";
-        btnLock.textContent = "🔒 Lock Box Now";
+        btnLock.textContent = "🔒 Relock Box (90°)";
         showMsg("Box unlocked successfully! Please place the package inside.", "success");
       } else if (line.includes("ACK: LOCKED") || line.includes("LOCKED")) {
         clearTimeout(ackTimeout);
         boxPhysicalState = 'LOCKED';
         statusCard.className = "status-card state-locked";
         lockIcon.textContent = "🔒";
-        statusTitle.textContent = "Box Locked";
-        statusSubtitle.textContent = "Secure & ready for delivery";
-        btnUnlock.style.display = 'inline-flex';
+        statusTitle.textContent = "Box Locked (90°)";
+        statusSubtitle.textContent = "Secure & ready for delivery (90°)";
+        btnUnlock.classList.remove('hidden');
         btnLock.className = "btn btn-lock btn-secondary-lock";
-        btnLock.textContent = "🔒 Close Box (0°)";
+        btnLock.textContent = "🔒 Close Box (90°)";
         showMsg("Box locked securely.", "info");
       }
     }
@@ -589,7 +605,7 @@
     function setPendingState(target) {
       statusCard.className = "status-card state-pending";
       lockIcon.textContent = "⏳";
-      statusTitle.textContent = target === 'UNLOCKED' ? "Unlocking..." : "Locking...";
+      statusTitle.textContent = target === 'UNLOCKED' ? "Unlocking to 0°..." : "Locking to 90°...";
       statusSubtitle.textContent = "Awaiting hardware confirmation...";
 
       clearTimeout(ackTimeout);
@@ -607,17 +623,10 @@
         return;
       }
 
-      let storedOtp = null;
-      let storedStatus = null;
-      let storedExpires = null;
+      let storedOtp = localStorage.getItem('box_otp');
+      let storedStatus = localStorage.getItem('box_otp_status');
+      let storedExpires = localStorage.getItem('box_otp_expires');
 
-      try {
-        storedOtp = localStorage.getItem('box_otp');
-        storedStatus = localStorage.getItem('box_otp_status');
-        storedExpires = localStorage.getItem('box_otp_expires');
-      } catch (e) {}
-
-      // Also check URL param ?otp=...
       const urlParams = new URLSearchParams(window.location.search);
       const urlOtp = urlParams.get('otp');
       const targetOtp = storedOtp || urlOtp;
@@ -639,18 +648,21 @@
         return;
       }
 
-      // Valid OTP
       try {
         localStorage.setItem('box_otp_status', 'USED');
       } catch (e) {}
+
+      if (broadcastChannel) {
+        broadcastChannel.postMessage({ type: 'OTP_UPDATED' });
+      }
 
       inputOtp.value = "";
       boxPhysicalState = 'AWAITING_UNLOCK';
       setPendingState('UNLOCKED');
 
-      const sent = await sendSerial("1\n");
+      const sent = await sendSerial(SERVO_UNLOCK_CMD);
       if (sent) {
-        showMsg("Code verified! Unlocking box...", "info");
+        showMsg("Code verified! Unlocking box to 0°...", "info");
       }
     }
 
@@ -659,7 +671,7 @@
     async function manualRelock() {
       boxPhysicalState = 'AWAITING_LOCK';
       setPendingState('LOCKED');
-      await sendSerial("0\n");
+      await sendSerial(SERVO_LOCK_CMD);
     }
 
     btnLock.addEventListener('click', manualRelock);
@@ -681,12 +693,14 @@
       e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
 
-    // Auto-fill from ?otp= parameter if provided in URL
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const paramOtp = urlParams.get('otp');
       if (paramOtp && paramOtp.length === 6) {
         inputOtp.value = paramOtp;
+      }
+      if (localStorage.getItem('box_serial_auto') === 'true') {
+        initSerialConnection(true);
       }
     });
   </script>
